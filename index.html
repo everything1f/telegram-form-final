@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send to Telegram</title>
+</head>
+<body>
+    <h2>Send a Message to Telegram</h2>
+    <form id="contactForm">
+        <input type="text" id="userInput" placeholder="Enter something" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            let message = document.getElementById("userInput").value;
+
+            let response = await fetch("YOUR_CLOUDFLARE_URL", { // Replace this with your Cloudflare URL
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message })
+            });
+
+            let result = await response.json();
+            if (result.success) {
+                alert("Message sent!");
+            } else {
+                alert("Error sending message.");
+            }
+        });
+    </script>
+</body>
+</html>
