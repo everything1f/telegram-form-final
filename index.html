@@ -12,6 +12,9 @@
         <button type="submit">Submit</button>
     </form>
 
+    <!-- Status message will appear here -->
+    <div id="messageStatus"></div> 
+
     <script>
         document.getElementById("contactForm").addEventListener("submit", async function(event) {
             event.preventDefault(); // Prevent the default form submission
@@ -32,14 +35,16 @@
                 });
 
                 let result = await response.json();
-                if (result.success) {
-                    alert("Message sent!");
+                if (response.ok) {
+                    // Instead of alerting, show the message in the div
+                    document.getElementById("messageStatus").textContent = "Message sent!";
                 } else {
-                    alert("Error sending message.");
+                    console.log("Error sending message:", result);
+                    document.getElementById("messageStatus").textContent = "Error sending message.";
                 }
             } catch (error) {
                 console.error("Error:", error);
-                alert("Something went wrong. Please try again.");
+                document.getElementById("messageStatus").textContent = "Something went wrong. Please try again.";
             }
         });
     </script>
