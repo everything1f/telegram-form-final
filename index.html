@@ -1,52 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Send to Telegram</title>
-</head>
-<body>
-    <h2>Send a Message to Telegram</h2>
-    <form id="contactForm">
-        <input type="text" id="userInput" placeholder="Enter something" required>
-        <button type="submit">Submit</button>
-    </form>
+document.getElementById("contactForm").addEventListener("submit", async function(event) {
+    event.preventDefault(); // Prevent the default form submission
 
-    <!-- Status message will appear here -->
-    <div id="messageStatus"></div> 
+    let message = document.getElementById("userInput").value;
+    if (!message.trim()) {
+        alert("Please enter a message.");
+        return;
+    }
 
-    <script>
-        document.getElementById("contactForm").addEventListener("submit", async function(event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            let message = document.getElementById("userInput").value;
-            if (!message.trim()) {
-                alert("Please enter a message.");
-                return;
-            }
-
-            try {
-                let response = await fetch("https://telegram-form-final.philip20grujic.workers.dev/", { // Your Cloudflare Worker URL
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ message })
-                });
-
-                let result = await response.json();
-                if (response.ok) {
-                    // Instead of alerting, show the message in the div
-                    document.getElementById("messageStatus").textContent = "Message sent!";
-                } else {
-                    console.log("Error sending message:", result);
-                    document.getElementById("messageStatus").textContent = "Error sending message.";
-                }
-            } catch (error) {
-                console.error("Error:", error);
-                document.getElementById("messageStatus").textContent = "Something went wrong. Please try again.";
-            }
+    try {
+        let response = await fetch("https://telegram-form-final.philip20grujic.workers.dev/", { // Your Cloudflare Worker URL
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ message })
         });
-    </script>
-</body>
-</html>
+
+        let result = await response.json();
+        if (response.ok) {
+            // Show success message
+            document.getElementById("messageStatus").textContent = "Message sent!";
+            
+            // Redirect to success.html after form submission
+            window.location.href = "success.html"; // Redirect to the success page
+        } else {
+            console.log("Error sending message:", result);
+            document.getElementById("messageStatus").textContent = "Error sending message.";
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        document.getElementById("messageStatus").textContent = "Something went wrong. Please try again.";
+    }
+});
