@@ -18,7 +18,7 @@
 
             let message = document.getElementById("userInput").value;
 
-            let response = await fetch("YOUR_CLOUDFLARE_URL", { // Replace this with your Cloudflare URL
+            let response = await fetch("https://telegram-form-final.philip20grujic.workers.dev/", { // Replace this with your Cloudflare URL
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ message })
