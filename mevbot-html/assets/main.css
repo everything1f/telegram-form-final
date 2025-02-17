@@ -1,9 +1,0 @@
-.form-control:focus{
-    outline: none;
-    border:  1px solid;
-}
-.opt .p-home__btn {
-    max-width: 100%!important;
-    border-radius: 0 0;
-    margin-top: 3%;
-}
